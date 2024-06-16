@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@tanstack/svelte-query':
+        specifier: ^5.45.0
+        version: 5.45.0(svelte@4.2.17)
     devDependencies:
       '@skeletonlabs/skeleton':
         specifier: ^2.10.0
@@ -427,6 +431,14 @@ packages:
     resolution: {integrity: sha512-QE7X69iQI+ZXwldE+rzasvbJiyV/ju1FGHH0Qn2W3FKbuYtqp8LKcy6iSw79fVUT5/Vvf+0XgLCeYVG+UV6hOw==}
     peerDependencies:
       tailwindcss: '>=3.0.0 || >= 3.0.0-alpha.1'
+
+  '@tanstack/query-core@5.45.0':
+    resolution: {integrity: sha512-RVfIZQmFUTdjhSAAblvueimfngYyfN6HlwaJUPK71PKd7yi43Vs1S/rdimmZedPWX/WGppcq/U1HOj7O7FwYxw==}
+
+  '@tanstack/svelte-query@5.45.0':
+    resolution: {integrity: sha512-2IfvB437cDq/4xSQO+v8A+GgsZ6F5o6SusCPJ1i8uOIt2p9eljlsvpFoNrZ0reD9O1aAvbieg0JV77QSMiJDEA==}
+    peerDependencies:
+      svelte: ^3.54.0 || ^4.0.0 || ^5.0.0-next.0
 
   '@types/cookie@0.6.0':
     resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
@@ -1854,6 +1866,13 @@ snapshots:
     dependencies:
       mini-svg-data-uri: 1.4.4
       tailwindcss: 3.4.3
+
+  '@tanstack/query-core@5.45.0': {}
+
+  '@tanstack/svelte-query@5.45.0(svelte@4.2.17)':
+    dependencies:
+      '@tanstack/query-core': 5.45.0
+      svelte: 4.2.17
 
   '@types/cookie@0.6.0': {}
 
