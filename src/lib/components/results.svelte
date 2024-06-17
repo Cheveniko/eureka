@@ -1,5 +1,15 @@
 <script lang="ts">
-	import { results, loadingResults } from "$lib/stores/results";
+	import {
+		jaccardResults,
+		jaccardTime,
+		jaccardPrecision,
+		jaccardRecall,
+		cosineResults,
+		cosineTime,
+		cosinePrecision,
+		cosineRecall,
+		loadingResults
+	} from "$lib/stores/results";
 	import { TabGroup, Tab } from "@skeletonlabs/skeleton";
 	import { ConicGradient } from "@skeletonlabs/skeleton";
 	import type { ConicStop } from "@skeletonlabs/skeleton";
@@ -17,22 +27,39 @@
 		<ConicGradient stops={conicStops} spin width="w-16" regionCaption="text-sm"
 			>Buscando</ConicGradient
 		>
-	{:else if $results.length !== 0}
+	{:else if $jaccardResults.length !== 0}
 		<TabGroup>
-			<Tab bind:group={tabSet} name="tab1" value={0}>Distancia Coseno</Tab>
-			<Tab bind:group={tabSet} name="tab2" value={1}>TF-IDF</Tab>
-			<Tab bind:group={tabSet} name="tab3" value={2}>Similitud Jaccard</Tab>
+			<Tab bind:group={tabSet} name="tab1" value={0}>Distancia Coseno (TF-IDF)</Tab>
+			<Tab bind:group={tabSet} name="tab2" value={1}>Similitud Jaccard (BoW)</Tab>
 			<svelte:fragment slot="panel">
 				<div class="space-y-4">
-					{#each $results as result}
-						{#if tabSet === 0}
-							<ResultCard {...result} />
-						{:else if tabSet === 1}
-							<ResultCard {...result} />
-						{:else if tabSet === 2}
-							<ResultCard {...result} />
-						{/if}
-					{/each}
+					{#if tabSet === 0}
+						<div class="flex items-center justify-between text-sm">
+							<p class="text-success-500">
+								{$cosineResults.length} resultados obtenidos en {$cosineTime.toFixed(2)} segundos
+							</p>
+							<p class="text-secondary-500">
+								Precision: <span class="font-semibold"> {$cosinePrecision.toFixed(2)}</span>
+								Recall: <span class="font-semibold"> {$cosineRecall.toFixed(2)}</span>
+							</p>
+						</div>
+						{#each $cosineResults as cosine, index}
+							<ResultCard {...cosine} {index} />
+						{/each}
+					{:else if tabSet === 1}
+						<div class="flex items-center justify-between text-sm">
+							<p class="text-success-500">
+								{$jaccardResults.length} resultados obtenidos en {$jaccardTime.toFixed(2)} segundos
+							</p>
+							<p class="text-secondary-500">
+								Precision: <span class="font-semibold"> {$jaccardPrecision.toFixed(2)}</span>
+								Recall: <span class="font-semibold"> {$jaccardRecall.toFixed(2)}</span>
+							</p>
+						</div>
+						{#each $jaccardResults as jaccard, index}
+							<ResultCard {...jaccard} {index} />
+						{/each}
+					{/if}
 				</div>
 			</svelte:fragment>
 		</TabGroup>

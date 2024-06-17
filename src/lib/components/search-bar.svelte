@@ -1,5 +1,15 @@
 <script lang="ts">
-	import { results, loadingResults } from "$lib/stores/results";
+	import {
+		jaccardResults,
+		jaccardTime,
+		jaccardPrecision,
+		jaccardRecall,
+		cosineResults,
+		cosineTime,
+		cosinePrecision,
+		cosineRecall,
+		loadingResults
+	} from "$lib/stores/results";
 
 	let userQuery = "";
 	let debounceTimer: NodeJS.Timeout;
@@ -10,12 +20,24 @@
 		debounceTimer = setTimeout(async () => {
 			console.log(userQuery);
 			$loadingResults = true;
-			const response = await fetch(`http://localhost:8000/${userQuery}`, {
-				headers: { "Access-Control-Allow-Origin": "*" }
-			});
+			const response = await fetch(`http://localhost:8000/${userQuery}`);
+			if (response.ok === false) {
+				$loadingResults = false;
+				return;
+			}
 			const data = await response.json();
 			console.log(data);
-			results.set(data.best_titles_cos);
+
+			jaccardResults.set(data.jaccard);
+			$jaccardTime = data.jaccard_time;
+			$jaccardPrecision = data.jaccard_precision;
+			$jaccardRecall = data.jaccard_recall;
+
+			cosineResults.set(data.cosine);
+			$cosineTime = data.cosine_time;
+			$cosinePrecision = data.cosine_precision;
+			$cosineRecall = data.cosine_recall;
+
 			$loadingResults = false;
 		}, 500);
 	}
