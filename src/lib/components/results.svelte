@@ -4,10 +4,12 @@
 		jaccardTime,
 		jaccardPrecision,
 		jaccardRecall,
+		jaccardF1,
 		cosineResults,
 		cosineTime,
 		cosinePrecision,
 		cosineRecall,
+		cosineF1,
 		loadingResults
 	} from "$lib/stores/results";
 	import { TabGroup, Tab } from "@skeletonlabs/skeleton";
@@ -36,11 +38,12 @@
 					{#if tabSet === 0}
 						<div class="flex items-center justify-between text-sm">
 							<p class="text-success-500">
-								{$cosineResults.length} resultados obtenidos en {$cosineTime.toFixed(2)} segundos
+								{$cosineResults.length} resultados obtenidos en {$cosineTime} ms
 							</p>
 							<p class="text-secondary-500">
 								Precision: <span class="font-semibold"> {$cosinePrecision.toFixed(2)}</span>
 								Recall: <span class="font-semibold"> {$cosineRecall.toFixed(2)}</span>
+								F1 Score: <span class="font-semibold"> {$cosineF1.toFixed(2)}</span>
 							</p>
 						</div>
 						{#each $cosineResults as cosine, index}
@@ -49,11 +52,12 @@
 					{:else if tabSet === 1}
 						<div class="flex items-center justify-between text-sm">
 							<p class="text-success-500">
-								{$jaccardResults.length} resultados obtenidos en {$jaccardTime.toFixed(2)} segundos
+								{$jaccardResults.length} resultados obtenidos en {$jaccardTime} ms
 							</p>
 							<p class="text-secondary-500">
 								Precision: <span class="font-semibold"> {$jaccardPrecision.toFixed(2)}</span>
 								Recall: <span class="font-semibold"> {$jaccardRecall.toFixed(2)}</span>
+								F1 Score: <span class="font-semibold"> {$jaccardF1.toFixed(2)}</span>
 							</p>
 						</div>
 						{#each $jaccardResults as jaccard, index}

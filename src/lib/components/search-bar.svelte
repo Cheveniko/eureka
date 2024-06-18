@@ -4,10 +4,12 @@
 		jaccardTime,
 		jaccardPrecision,
 		jaccardRecall,
+		jaccardF1,
 		cosineResults,
 		cosineTime,
 		cosinePrecision,
 		cosineRecall,
+		cosineF1,
 		loadingResults
 	} from "$lib/stores/results";
 
@@ -32,11 +34,13 @@
 			$jaccardTime = data.jaccard_time;
 			$jaccardPrecision = data.jaccard_precision;
 			$jaccardRecall = data.jaccard_recall;
+			$jaccardF1 = data.jaccard_f1_score;
 
 			cosineResults.set(data.cosine);
 			$cosineTime = data.cosine_time;
 			$cosinePrecision = data.cosine_precision;
 			$cosineRecall = data.cosine_recall;
+			$cosineF1 = data.cosine_f1_score;
 
 			$loadingResults = false;
 		}, 500);
