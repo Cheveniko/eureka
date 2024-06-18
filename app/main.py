@@ -32,17 +32,19 @@ async def read_item(query: str):
         df, corpus.sorted_indices_jacc, corpus.jaccard_similarities,
         corpus.sorted_indices_cos, corpus.cosine_distances)
 
-    jaccard_recall, jaccard_precision = get_metrics(
+    jaccard_recall, jaccard_precision, jaccard_f1_score = get_metrics(
         query, corpus.best_titles_jaccard)
 
-    cosine_recall, cosine_precision = get_metrics(
+    cosine_recall, cosine_precision, cosine_f1_score = get_metrics(
         query, corpus.best_titles_cosine)
 
     result = {
         "jaccard": jaccard, "jaccard_time": jaccard_time,
         "jaccard_recall": jaccard_recall, "jaccard_precision": jaccard_precision,
+        "jaccard_f1_score": jaccard_f1_score,
         "cosine": cosine, "cosine_time": cosine_time,
         "cosine_recall": cosine_recall, "cosine_precision": cosine_precision,
+        "cosine_f1_score": cosine_f1_score,
     }
 
     json_result = jsonable_encoder(result)

@@ -1,5 +1,4 @@
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
-from sklearn.metrics import jaccard_score
 import numpy as np
 import time
 
@@ -31,14 +30,15 @@ class Corpus:
     def jaccard(self, query):
         print("procesando jaccard.....")
         start = time.time()
-        query_bow = self.count_vectorizer.transform([query])
+        query_vector = self.count_vectorizer.transform([query])
         jaccard_similarities = []
         self.jaccard_similarities = []
         for idx in range(self.bag_of_words_matrix.shape[0]):
-            similarity = jaccard_score(
-                self.bag_of_words_matrix[idx].toarray()[0],
-                query_bow.toarray()[0]
-            )
+            a = query_vector.toarray().squeeze()
+            b = self.bag_of_words_matrix[idx].toarray().squeeze()
+            intersection = np.sum(np.logical_and(a, b))
+            union = np.sum(np.logical_or(a, b))
+            similarity = intersection/union if union != 0 else 0.0
             jaccard_similarities.append(similarity)
 
         sorted_indices = np.argsort(jaccard_similarities)[::-1]
@@ -52,9 +52,9 @@ class Corpus:
             else:
                 break
         end = time.time()
-        time_taken = end-start
-        print("Time: ", time_taken)
-        return time_taken
+        time_taken_ms = round((end-start) * 1000)
+        print("Finalizó jaccard Time in ms: ", time_taken_ms)
+        return time_taken_ms
 
     def cosine(self, query):
         print("procesando cosine.....")
@@ -66,23 +66,23 @@ class Corpus:
             a = self.tfidf_matrix[idx].toarray().squeeze()
             b = query_tfidf_vector.toarray().squeeze()
             if np.linalg.norm(a)*np.linalg.norm(b) > 0.0:
-                cos_distantce = np.dot(
+                cos_distance = np.dot(
                     a, b)/(np.linalg.norm(a)*np.linalg.norm(b))
             else:
-                cos_distantce = 0.0
-            cosine_distances.append(cos_distantce)
+                cos_distance = 0.0
+            cosine_distances.append(cos_distance)
 
-        sorted_indices2 = np.argsort(cosine_distances)[::-1]
+        sorted_indices = np.argsort(cosine_distances)[::-1]
         self.best_titles_cosine = []
-        self.sorted_indices_cos = sorted_indices2
+        self.sorted_indices_cos = sorted_indices
         self.cosine_distances = cosine_distances
-        for idx in sorted_indices2:
+        for idx in sorted_indices:
             if (cosine_distances[idx] > 0.0):
                 filename = self.df['filename'].iloc[idx]
                 self.best_titles_cosine.append(filename)
             else:
                 break
         end = time.time()
-        time_taken = end-start
-        # print("finalizo cosine Time: ", end-start)
-        return time_taken
+        time_taken_ms = round((end-start) * 1000)
+        print("Finalizó cosine Time in ms: ", time_taken_ms)
+        return time_taken_ms

@@ -16,9 +16,17 @@ def get_metrics(query, predicted):
     false_negatives = get_false_negatives(predicted, truth)
     false_positives = get_false_positive(predicted, truth)
 
-    recall = true_positives/(true_positives+false_negatives)
-    precision = true_positives/(true_positives+false_positives)
-    return recall, precision
+    recall = true_positives / \
+        (true_positives+false_negatives) if true_positives + \
+        false_negatives > 0 else 0
+
+    precision = true_positives / \
+        (true_positives+false_positives) if true_positives + \
+        false_positives > 0 else 0
+
+    f1_score = (2 * true_positives) / ((2 * true_positives) +
+                                       false_positives + false_negatives) if (true_positives + false_positives + false_negatives) > 0 else 0
+    return recall, precision, f1_score
 
 
 def get_true_positives(predicted, truth):
