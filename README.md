@@ -18,7 +18,7 @@ El frontend consiste en una interfaz web que permite al usuario ingresar una con
 
 Screenshot de la interfaz:
 
-[![Product Name Screen Shot][product-screenshot]](images/usage-eureka.jpeg)
+![Eureka](images/usage-eureka.jpeg "Eureka")
 
 ### Backend
 
